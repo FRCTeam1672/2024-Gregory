@@ -38,13 +38,31 @@ public class DriveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    double xSpeed = /*-(0.65 + speed) */ -xboxController.getLeftY();
-    double zRotation = /*-(0.75 + speed / 2) */ -xboxController.getRightX();
-    if (Math.abs(xSpeed) <= 0.20 && Math.abs(zRotation) <= 0.2) {
-      stop();
-      return;
+    // double xSpeed = /*-(0.65 + speed) */ -xboxController.getLeftY();
+    // double zRotation = /*-(0.75 + speed / 2) */ -xboxController.getRightX();
+    // if (Math.abs(xSpeed) <= 0.20 && Math.abs(zRotation) <= 0.2) {
+    //   stop();
+    //   return;
+    // }
+    // drive.arcadeDrive(MathUtil.clamp(xSpeed, -1, 1), MathUtil.clamp(zRotation, -1, 1));
+    double xSpeed = 0;
+    double zSpeed = 0;
+    if(xboxController.a().getAsBoolean()) {
+      xSpeed = 0.5;
     }
-    drive.arcadeDrive(MathUtil.clamp(xSpeed, -0.85, 0.85), MathUtil.clamp(zRotation, -1, 1));
+    else if(xboxController.x().getAsBoolean()) {
+      xSpeed = -0.5;//985587
+      //897//////
+    }
+    else xSpeed = 0;
+    if(xboxController.b().getAsBoolean()) {
+      zSpeed = 0.5;
+    }
+    else if(xboxController.y().getAsBoolean()) {
+      zSpeed = -0.5;
+    }
+    else zSpeed = 0;
+    arcadeDrive(xSpeed, zSpeed);
   }
 
   public void drive(double xSpeed, double zSpeed) {
